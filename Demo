@@ -1,0 +1,115 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class JavaInterviewDemo {
+
+    public static void main(String[] args) {
+
+        // 1. Reverse String
+        String str = "Interview";
+        String reversed = new StringBuilder(str).reverse().toString();
+        System.out.println("Reverse: " + reversed);
+
+        // 2. Palindrome
+        String palindrome = "madam";
+        System.out.println("Is Palindrome: "
+                + palindrome.equals(new StringBuilder(palindrome).reverse().toString()));
+
+        // 3. Anagram
+        String s1 = "listen";
+        String s2 = "silent";
+
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+
+        System.out.println("Anagram: " + Arrays.equals(c1, c2));
+
+        // 4. Character Frequency
+        String word = "programming";
+        Map<Character, Integer> frequency = new HashMap<>();
+
+        for (char c : word.toCharArray()) {
+            frequency.put(c, frequency.getOrDefault(c, 0) + 1);
+        }
+
+        System.out.println("Frequency: " + frequency);
+
+        // 5. First Non-Repeated Character
+        Map<Character, Integer> map = new LinkedHashMap<>();
+
+        for (char c : word.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        for (Map.Entry<Character, Integer> e : map.entrySet()) {
+            if (e.getValue() == 1) {
+                System.out.println("First Unique: " + e.getKey());
+                break;
+            }
+        }
+
+        // 6. Remove Duplicates
+        List<Integer> numbers = Arrays.asList(1,2,3,2,4,5,1,6);
+        List<Integer> unique = new ArrayList<>(new LinkedHashSet<>(numbers));
+        System.out.println("Unique List: " + unique);
+
+        // 7. Find Duplicates
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = new HashSet<>();
+
+        for (int n : numbers) {
+            if (!seen.add(n)) {
+                duplicates.add(n);
+            }
+        }
+
+        System.out.println("Duplicates: " + duplicates);
+
+        // 8. Second Largest
+        int[] arr = {15, 7, 30, 25, 18};
+
+        int first = Integer.MIN_VALUE;
+        int second = Integer.MIN_VALUE;
+
+        for (int n : arr) {
+            if (n > first) {
+                second = first;
+                first = n;
+            } else if (n > second && n != first) {
+                second = n;
+            }
+        }
+
+        System.out.println("Second Largest: " + second);
+
+        // 9. Missing Number
+        int[] missing = {1,2,3,5};
+
+        int expected = 5 * (5 + 1) / 2;
+        int actual = Arrays.stream(missing).sum();
+
+        System.out.println("Missing Number: " + (expected - actual));
+
+        // 10. Streams Example
+        List<Integer> streamData = Arrays.asList(5,8,10,15,20,3);
+
+        List<Integer> evenSquares = streamData.stream()
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * x)
+                .collect(Collectors.toList());
+
+        System.out.println("Even Squares: " + evenSquares);
+
+        // 11. Longest Word
+        String sentence = "Java SpringBoot Microservices Kafka";
+
+        String longest = Arrays.stream(sentence.split(" "))
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
+
+        System.out.println("Longest Word: " + longest);
+    }
+}
